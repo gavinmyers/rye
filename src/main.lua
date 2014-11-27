@@ -1,4 +1,5 @@
 local bump       = require 'bump'
+local thing       = require 'thing'
 local bump_debug = require 'bump_debug'
 
 local instructions = [[
