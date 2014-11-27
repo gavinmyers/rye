@@ -11,6 +11,7 @@ function _thing()
     t.tile = {}
     return t
   end
+  return thing
 end
 if __thing ~= nil then
   return __thing
