@@ -1,6 +1,5 @@
-local bump       = require 'bump'
+local bump       = require 'lib/bump'
 local thing       = require 'thing'
-local bump_debug = require 'bump_debug'
 local shader = require 'lib/postshader'
 local light = require 'lib/light'
 
@@ -155,7 +154,6 @@ local function drawMessage()
 end
 
 local function drawDebug()
-  bump_debug.draw(world)
 
   local statistics = ("fps: %d, mem: %dKB"):format(love.timer.getFPS(), collectgarbage("count"))
   love.graphics.setColor(255, 255, 255)
