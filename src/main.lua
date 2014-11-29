@@ -1,6 +1,8 @@
 local bump       = require 'bump'
 local thing       = require 'thing'
 local bump_debug = require 'bump_debug'
+local shader = require 'lib/postshader'
+local light = require 'lib/light'
 
 local instructions = [[
   bump.lua simple demo
@@ -11,6 +13,8 @@ local instructions = [[
 ]]
 -- Block functions
 local blocks = {}
+-- Eaters 
+local blockEaters = {}
 -- World creation
 local world = bump.newWorld()
 
@@ -47,7 +51,7 @@ local function moveBlock(block,dx,dy)
 end
 
 local function wiggleBlocks(dt) 
-  for i,block in ipairs(blocks) do
+  for i,block in pairs(blocks) do
     local dx, dy = 0, 0
     local speed = block.speed
     if math.random(1,6) == 1 then 
@@ -62,17 +66,51 @@ local function wiggleBlocks(dt)
     end
     moveBlock(block,dx,dy)
   end
+  for i,block in pairs(blockEaters) do
+    local dx, dy = 0, 0
+    local speed = block.speed
+    if math.random(1,6) == 1 then 
+      dx = speed * dt
+    elseif math.random(1,6) == 1 then 
+      dx = -speed * dt
+    end
+    if math.random(1,6) == 1 then 
+      dy = speed * dt
+    elseif math.random(1,6) == 1 then 
+      dy = -speed * dt
+    end
+    local future_l, future_t = block.l + dx, block.t + dy
+    local collisions, len = world:check(block,future_l,future_t)
+    for _,col in ipairs(collisions) do 
+      if col.other.name == "wall" then
+        blocks[col.other.id] = nil
+        world:remove(col.other)
+      end
+    end
+    if blockEaters[block.id] ~= nil then
+      moveBlock(block,dx,dy)
+    end
+  end
+
 end
 
 local function addBlock(l,t,w,h)
-  local block = {l=l,t=t,w=w,h=h,speed=120}
-  blocks[#blocks+1] = block
+  local id = tostring(math.random())
+  local block = {l=l,t=t,w=w,h=h,speed=120,name="wall",id=id}
+  blocks[block.id] = block
+  world:add(block, l,t,w,h)
+end
+local function addBlockEater(l,t,w,h)
+  local id = tostring(math.random())
+  local block = {l=l,t=t,w=w,h=h,speed=120,name="eater",id=id}
+  blockEaters[id] = block
   world:add(block, l,t,w,h)
 end
 
 
+
 -- Player functions
-local player = { l=50,t=50,w=20,h=20, speed = 120 }
+local player = { l=50,t=50,w=20,h=20, speed = 120,name="player"}
 
 local function updatePlayer(dt)
   local speed = player.speed
@@ -98,10 +136,16 @@ end
 
 
 local function drawBlocks()
-  for _,block in ipairs(blocks) do
+  for _,block in pairs(blocks) do
     drawBox(block, 255,0,0)
   end
 end
+local function drawBlockEaters()
+  for _,block in pairs(blockEaters) do
+    drawBox(block, 255,255,0)
+  end
+end
+
 
 -- Message/debug functions
 local function drawMessage()
@@ -142,7 +186,7 @@ function love.keypressed(k)
   if k=="tab"    then shouldDrawDebug = not shouldDrawDebug end
   if k=="delete" then collectgarbage("collect") end
   if k==" " then 
-    addBlock( math.random(100, 600),
+    addBlockEater( math.random(100, 600),
               math.random(100, 400),
               math.random(3, 5),
               math.random(3, 5)
@@ -154,11 +198,36 @@ function love.update(dt)
   updatePlayer(dt)
 end
 
+local lightWorld = love.light.newWorld() 
+local lightMouse = lightWorld.newLight(255,255,255,255,255,300) 
+function initLight() 
+  lightWorld.clearBodys()
+  for _,box in pairs(blocks) do
+    local r = lightWorld.newRectangle(box.l, box.t, box.w, box.h)
+  end
+ for _,box in pairs(blockEaters) do
+    local r = lightWorld.newRectangle(box.l, box.t, box.w, box.h)
+  end
+
+end
+function drawLight()
+  lightWorld.update()
+  lightWorld.drawShadow()
+end
 function love.draw()
+  love.graphics.setColor(255,255,255,70)
+  love.graphics.rectangle("fill",0,0,1024,768) 
+  love.graphics.setColor(100,100,100)
+  love.graphics.rectangle("line",0,0,1024,768) 
+
+  initLight()
   drawBlocks()
+  drawBlockEaters()
   drawPlayer()
   if shouldDrawDebug then drawDebug() end
   drawMessage()
+  lightMouse.setPosition(player.l, player.t)
+  drawLight()
 end
 
 
