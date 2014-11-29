@@ -1,7 +1,7 @@
-local bump       = require 'lib/bump'
-local thing       = require 'thing'
+local bump = require 'lib/bump'
 local shader = require 'lib/postshader'
 local light = require 'lib/light'
+local thing = require 'thing'
 
 local instructions = [[
   bump.lua simple demo
