@@ -899,8 +899,8 @@ function love.light.newBody(p, type, ...)
     o.y = args[2] or 0
     o.width = args[3] or 64
     o.height = args[4] or 64
-    o.ox = o.width * 0.5
-    o.oy = o.height * 0.5
+    o.ox = o.width * 0
+    o.oy = o.height * 0
     o.shadowType = "rectangle"
     o.data = {
       o.x - o.ox,

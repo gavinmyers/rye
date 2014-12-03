@@ -2,6 +2,7 @@ local bump = require 'lib/bump'
 local shader = require 'lib/postshader'
 local light = require 'lib/light'
 local thing = require 'thing'
+local tile = require 'tile'
 
 local instructions = [[
   bump.lua simple demo
@@ -173,7 +174,7 @@ function love.load()
     addBlock( math.random(100, 600),
               math.random(100, 400),
               math.random(10, 10),
-              math.random(10, 10)
+              math.random(10, 40)
     )
   end
 end
@@ -218,14 +219,14 @@ function love.draw()
   love.graphics.setColor(100,100,100)
   love.graphics.rectangle("line",0,0,1024,768) 
 
-  initLight()
   drawBlocks()
   drawBlockEaters()
   drawPlayer()
   if shouldDrawDebug then drawDebug() end
-  drawMessage()
   lightMouse.setPosition(player.l, player.t)
+  initLight()
   drawLight()
+  drawMessage()
 end
 
 

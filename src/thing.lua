@@ -6,9 +6,8 @@ function _thing()
     t.t = 0
     t.h = 0
     t.w = 0
-    t.speed = 0
     t.children = {}
-    t.tile = {}
+    t.parent = {}
     return t
   end
   return thing
