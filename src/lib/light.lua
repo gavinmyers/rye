@@ -22,24 +22,24 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ]]
 
-LOVE_LIGHT_CURRENT = nil
-LOVE_LIGHT_CIRCLE = nil
-LOVE_LIGHT_POLY = nil
-LOVE_LIGHT_IMAGE = nil
-LOVE_LIGHT_BODY = nil
-LOVE_LIGHT_LAST_BUFFER = nil
-LOVE_LIGHT_SHADOW_GEOMETRY = nil
+local LOVE_LIGHT_CURRENT = nil
+local LOVE_LIGHT_CIRCLE = nil
+local LOVE_LIGHT_POLY = nil
+local LOVE_LIGHT_IMAGE = nil
+local LOVE_LIGHT_BODY = nil
+local LOVE_LIGHT_LAST_BUFFER = nil
+local LOVE_LIGHT_SHADOW_GEOMETRY = nil
 
-LOVE_LIGHT_BLURV = love.graphics.newShader("shader/blurv.glsl")
-LOVE_LIGHT_BLURH = love.graphics.newShader("shader/blurh.glsl")
+local LOVE_LIGHT_BLURV = love.graphics.newShader("shader/blurv.glsl")
+local LOVE_LIGHT_BLURH = love.graphics.newShader("shader/blurh.glsl")
 LOVE_LIGHT_BLURV:send("screen", {love.window.getWidth(), love.window.getHeight()})
 LOVE_LIGHT_BLURH:send("screen", {love.window.getWidth(), love.window.getHeight()})
 
-LOVE_LIGHT_TRANSLATE_X = 0
-LOVE_LIGHT_TRANSLATE_Y = 0
-LOVE_LIGHT_TRANSLATE_X_OLD = 0
-LOVE_LIGHT_TRANSLATE_Y_OLD = 0
-LOVE_LIGHT_DIRECTION = 0
+local LOVE_LIGHT_TRANSLATE_X = 0
+local LOVE_LIGHT_TRANSLATE_Y = 0
+local LOVE_LIGHT_TRANSLATE_X_OLD = 0
+local LOVE_LIGHT_TRANSLATE_Y_OLD = 0
+local LOVE_LIGHT_DIRECTION = 0
 
 love.light = {}
 
@@ -137,10 +137,10 @@ function love.light.newWorld()
             love.graphics.clear()
 
             -- calculate shadows
-            LOVE_LIGHT_SHADOW_GEOMETRY = calculateShadows(LOVE_LIGHT_CURRENT, LOVE_LIGHT_BODY)
+            LOVE_LIGHT_SHADOW_GEOMETRY = love.light.calculateShadows(LOVE_LIGHT_CURRENT, LOVE_LIGHT_BODY)
 
             -- draw shadow
-            love.graphics.setInvertedStencil(shadowStencil)
+            love.graphics.setInvertedStencil(love.light.shadowStencil)
             love.graphics.setBlendMode("additive")
             love.graphics.rectangle("fill", LOVE_LIGHT_TRANSLATE_X, LOVE_LIGHT_TRANSLATE_Y, love.graphics.getWidth(), love.graphics.getHeight())
 
@@ -195,7 +195,7 @@ function love.light.newWorld()
             love.graphics.setCanvas(o.lights[i].shine)
             o.lights[i].shine:clear(255, 255, 255)
             love.graphics.setBlendMode("alpha")
-            love.graphics.setStencil(polyStencil)
+            love.graphics.setStencil(love.light.polyStencil)
             love.graphics.rectangle("fill", LOVE_LIGHT_TRANSLATE_X, LOVE_LIGHT_TRANSLATE_Y, love.graphics.getWidth(), love.graphics.getHeight())
 
             lightsOnScreen = lightsOnScreen + 1
@@ -1244,7 +1244,7 @@ function love.light.newBody(p, type, ...)
   end
   -- set height map
   o.setHeightMap = function(heightMap, strength)
-    o.setNormalMap(HeightMapToNormalMap(heightMap, strength))
+    o.setNormalMap(love.light.HeightMapToNormalMap(heightMap, strength))
   end
   -- generate flat normal map
   o.generateNormalMapFlat = function(mode)
@@ -1317,7 +1317,7 @@ function love.light.newBody(p, type, ...)
   end
   -- generate normal map
   o.generateNormalMap = function(strength)
-    o.setNormalMap(HeightMapToNormalMap(o.img, strength))
+    o.setNormalMap(love.light.HeightMapToNormalMap(o.img, strength))
   end
   -- set material
   o.setMaterial = function(material)
@@ -1440,7 +1440,7 @@ end
 
 -- refraction object (height map)
 function love.light.newRefractionHeightMap(p, heightMap, x, y, strength)
-  local normal = HeightMapToNormalMap(heightMap, strength)
+  local normal = love.light.HeightMapToNormalMap(heightMap, strength)
   return love.light.newRefraction(p, normal, x, y)
 end
 
@@ -1451,30 +1451,30 @@ end
 
 -- reflection object (height map)
 function love.light.newReflectionHeightMap(p, heightMap, x, y, strength)
-  local normal = HeightMapToNormalMap(heightMap, strength)
+  local normal = love.light.HeightMapToNormalMap(heightMap, strength)
   return love.light.newReflection(p, normal, x, y)
 end
 
 -- vector functions
-function normalize(v)
+function love.light.normalize(v)
   local len = math.sqrt(math.pow(v[1], 2) + math.pow(v[2], 2))
   local normalizedv = {v[1] / len, v[2] / len}
   return normalizedv
 end
 
-function dot(v1, v2)
+function love.light.dot(v1, v2)
   return v1[1] * v2[1] + v1[2] * v2[2]
 end
 
-function lengthSqr(v)
+function love.light.lengthSqr(v)
   return v[1] * v[1] + v[2] * v[2]
 end
 
-function length(v)
+function love.light.length(v)
   return math.sqrt(lengthSqr(v))
 end
 
-function calculateShadows(light, body)
+function love.light.calculateShadows(light, body)
   local shadowGeometry = {}
   local shadowLength = 100000
 
@@ -1488,10 +1488,10 @@ function calculateShadows(light, body)
           local normal = {-curPolygon[indexOfNextVertex+1] + curPolygon[k + 1], curPolygon[indexOfNextVertex] - curPolygon[k]}
           local lightToPoint = {curPolygon[k] - light.x, curPolygon[k + 1] - light.y}
 
-          normal = normalize(normal)
-          lightToPoint = normalize(lightToPoint)
+          normal = love.light.normalize(normal)
+          lightToPoint = love.light.normalize(lightToPoint)
 
-          local dotProduct = dot(normal, lightToPoint)
+          local dotProduct = love.light.dot(normal, lightToPoint)
           if dotProduct > 0 then table.insert(edgeFacingTo, true)
           else table.insert(edgeFacingTo, false) end
         end
@@ -1504,7 +1504,7 @@ function calculateShadows(light, body)
             curShadowGeometry[1] = curPolygon[nextIndex*2-1]
             curShadowGeometry[2] = curPolygon[nextIndex*2]
 
-            local lightVecFrontBack = normalize({curPolygon[nextIndex*2-1] - light.x, curPolygon[nextIndex*2] - light.y})
+            local lightVecFrontBack = love.light.normalize({curPolygon[nextIndex*2-1] - light.x, curPolygon[nextIndex*2] - light.y})
             curShadowGeometry[3] = curShadowGeometry[1] + lightVecFrontBack[1] * shadowLength
             curShadowGeometry[4] = curShadowGeometry[2] + lightVecFrontBack[2] * shadowLength
 
@@ -1512,7 +1512,7 @@ function calculateShadows(light, body)
             curShadowGeometry[7] = curPolygon[nextIndex*2-1]
             curShadowGeometry[8] = curPolygon[nextIndex*2]
 
-            local lightVecBackFront = normalize({curPolygon[nextIndex*2-1] - light.x, curPolygon[nextIndex*2] - light.y})
+            local lightVecBackFront = love.light.normalize({curPolygon[nextIndex*2-1] - light.x, curPolygon[nextIndex*2] - light.y})
             curShadowGeometry[5] = curShadowGeometry[7] + lightVecBackFront[1] * shadowLength
             curShadowGeometry[6] = curShadowGeometry[8] + lightVecBackFront[2] * shadowLength
           end
@@ -1566,7 +1566,7 @@ function calculateShadows(light, body)
   return shadowGeometry
 end
 
-shadowStencil = function()
+function love.light.shadowStencil()
   for i = 1,#LOVE_LIGHT_SHADOW_GEOMETRY do
     if LOVE_LIGHT_SHADOW_GEOMETRY[i].alpha == 1.0 then
       love.graphics.polygon("fill", unpack(LOVE_LIGHT_SHADOW_GEOMETRY[i]))
@@ -1587,7 +1587,7 @@ shadowStencil = function()
   end
 end
 
-polyStencil = function()
+function love.light.polyStencil() 
   for i = 1, #LOVE_LIGHT_BODY do
     if LOVE_LIGHT_BODY[i].shine and (LOVE_LIGHT_BODY[i].glowStrength == 0.0 or (LOVE_LIGHT_BODY[i].type == "image" and not LOVE_LIGHT_BODY[i].normal)) then
       if LOVE_LIGHT_BODY[i].shadowType == "circle" then
@@ -1603,7 +1603,7 @@ polyStencil = function()
   end
 end
 
-function HeightMapToNormalMap(heightMap, strength)
+function love.light.HeightMapToNormalMap(heightMap, strength)
   local imgData = heightMap:getData()
   local imgData2 = love.image.newImageData(heightMap:getWidth(), heightMap:getHeight())
   local red, green, blue, alpha

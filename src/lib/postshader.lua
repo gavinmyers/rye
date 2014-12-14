@@ -22,18 +22,18 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ]]
 
-LOVE_POSTSHADER_BUFFER_RENDER = love.graphics.newCanvas()
-LOVE_POSTSHADER_BUFFER_BACK = love.graphics.newCanvas()
-LOVE_POSTSHADER_LAST_BUFFER = nil
+local LOVE_POSTSHADER_BUFFER_RENDER = love.graphics.newCanvas()
+local LOVE_POSTSHADER_BUFFER_BACK = love.graphics.newCanvas()
+local LOVE_POSTSHADER_LAST_BUFFER = nil
 
-LOVE_POSTSHADER_BLURV = love.graphics.newShader("shader/blurv.glsl")
-LOVE_POSTSHADER_BLURH = love.graphics.newShader("shader/blurh.glsl")
-LOVE_POSTSHADER_CONTRAST = love.graphics.newShader("shader/contrast.glsl")
-LOVE_POSTSHADER_CHROMATIC_ABERRATION = love.graphics.newShader("shader/chromatic_aberration.glsl")
-LOVE_POSTSHADER_FOUR_COLOR = love.graphics.newShader("shader/four_colors.glsl")
-LOVE_POSTSHADER_MONOCHROM = love.graphics.newShader("shader/monochrom.glsl")
-LOVE_POSTSHADER_SCANLINES = love.graphics.newShader("shader/scanlines.glsl")
-LOVE_POSTSHADER_TILT_SHIFT = love.graphics.newShader("shader/tilt_shift.glsl")
+local LOVE_POSTSHADER_BLURV = love.graphics.newShader("shader/blurv.glsl")
+local LOVE_POSTSHADER_BLURH = love.graphics.newShader("shader/blurh.glsl")
+local LOVE_POSTSHADER_CONTRAST = love.graphics.newShader("shader/contrast.glsl")
+local LOVE_POSTSHADER_CHROMATIC_ABERRATION = love.graphics.newShader("shader/chromatic_aberration.glsl")
+local LOVE_POSTSHADER_FOUR_COLOR = love.graphics.newShader("shader/four_colors.glsl")
+local LOVE_POSTSHADER_MONOCHROM = love.graphics.newShader("shader/monochrom.glsl")
+local LOVE_POSTSHADER_SCANLINES = love.graphics.newShader("shader/scanlines.glsl")
+local LOVE_POSTSHADER_TILT_SHIFT = love.graphics.newShader("shader/tilt_shift.glsl")
 
 love.postshader = {}
 
