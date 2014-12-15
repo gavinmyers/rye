@@ -10,18 +10,19 @@ local boards = require.tree('com.layout.boards')
 
 function love.load()
   board:load()
+  board:current("WELCOME")
 end
 
 function love.keypressed(k)
-  if k=="escape" then love.event.quit() end
+  board:keypressed(k)
 end
 
 function love.update(dt)
+  board:update(dt)
 end
 
 function love.draw()
-  love.graphics.setColor(0,255,255)
-  love.graphics.rectangle("fill",0,0,16,16) 
+  board:draw()
 end
 
 
