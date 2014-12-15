@@ -2,8 +2,8 @@ local board = require 'com.layout.board'
 local tile = require 'com.layout.tile'
 local function main()
   local b = board:create("GAME")
-  b.player = tile:get("ACTOR")
-  print(b.p)
+  b.player = tile:new("ACTOR")
+  print(b.player.id)
 
   function b:_draw()
     local screenWidth, screenHeight = love.window.getDimensions()
