@@ -20,11 +20,17 @@ local function _board()
     if id ~= nil then
       board.currentBoard = board.db[id]
     end
+    if board.currentBoard == nil then
+      print("Unable to draw board " .. id .. " not found")
+      board.currentBoard = board.db["ERROR"]
+    end
     return board.currentBoard
   end
+
   function board:create(id)
     local t = {}
     t.id = id
+    t.db = {}
     function t:draw()
       if self._draw ~= nil then
         self:_draw()
