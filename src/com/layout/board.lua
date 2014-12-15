@@ -40,6 +40,14 @@ local function _board()
       end
     end
 
+    function t:add(tile) 
+      self.db[tile.id] = tile
+      return self.db[tile.id]
+    end
+    function t:get(id) 
+      return self.db[id]
+    end
+
     function t:update(dt)
       if self._update ~= nil then
         self:_update(dt)
