@@ -9,7 +9,9 @@ local function main()
     love.graphics.setColor(125,125,125)
     love.graphics.rectangle("fill",0,0,screenWidth,screenHeight)
 
-    self.player:draw()
+    for k, v in pairs(self:get()) do
+      v:draw()
+    end
   end
 
   function b:_update(dt)

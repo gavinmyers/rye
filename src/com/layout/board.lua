@@ -45,7 +45,11 @@ local function _board()
       return self.db[tile.id]
     end
     function t:get(id) 
-      return self.db[id]
+      if id ~= nil then
+        return self.db[id]
+      else
+        return self.db
+      end
     end
 
     function t:update(dt)
