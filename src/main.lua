@@ -5,6 +5,8 @@ local bump = require 'lib.bump'
 local shader = require 'lib.postshader'
 local light = require 'lib.light'
 
+local tiles = require.tree('com.layout.tiles')
+
 local board = require 'com.layout.board'
 local boards = require.tree('com.layout.boards')
 
