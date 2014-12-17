@@ -1,6 +1,5 @@
 local board = require 'com.layout.board'
 local tile = require 'com.layout.tile'
-local map = require 'com.engine.map'
 
 local function main()
   local gen = board:create("GAME")
@@ -8,7 +7,6 @@ local function main()
   function gen:_new()
     local b = board:create("GAME-"..math.random(1000,9999).."-"..math.random(1000,9999))
     b.player = b:get(b:add(tile:new("ACTOR")).id) --roundabout way to prove all this works
-    local m = map:new("CAVE")
     local w = tile:new("WALL")
     w.l = 32
     w.t = 32
