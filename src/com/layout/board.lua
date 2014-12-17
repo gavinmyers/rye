@@ -1,30 +1,13 @@
 local function _board()
   local board = {}
   board.db = {} 
-  board.currentBoard = nil
-  function board:version() 
-    print("v1.0.0")
-  end
   function board:load()
   end
-  function board:keypressed(k)
-    self:current():keypressed(k)
+  function board:new(id)
+    return self:get(id):new()
   end
-  function board:update(dt)
-    self:current():update(dt)
-  end
-  function board:draw()
-    self:current():draw()
-  end
-  function board:current(id)
-    if id ~= nil then
-      board.currentBoard = board.db[id]
-    end
-    if board.currentBoard == nil then
-      print("Unable to draw board " .. id .. " not found")
-      board.currentBoard = board.db["ERROR"]
-    end
-    return board.currentBoard
+  function board:get(id)
+    return self.db[id]
   end
 
   function board:create(id)
@@ -41,14 +24,26 @@ local function _board()
     end
 
     function t:add(tile) 
-      self.db[tile.id] = tile
-      return self.db[tile.id]
+      if self.db[tile.z] == nil then
+        self.db[tile.z] = {}
+      end
+      self.db[tile.z][tile.id] = tile
+      return self.db[tile.z][tile.id]
     end
     function t:get(id) 
       if id ~= nil then
-        return self.db[id]
+        for k, v in pairs(self:get()) do
+          if v[id] ~= nil then
+            return v[id]
+          end
+        end
       else
         return self.db
+      end
+    end
+    function t:new()
+      if self._new ~= nil then
+        return self:_new()
       end
     end
 

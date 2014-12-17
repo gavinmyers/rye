@@ -1,10 +1,6 @@
 local function _tile()
   local tile = {}
   tile.db = {}
-
-  function tile:version() 
-    print("v1.0.0")
-  end
   function tile:load()
   end
   function tile:get(id)
@@ -18,9 +14,11 @@ local function _tile()
     t.id = id
     t.l = 0
     t.t = 0
+    t.z = 0
     t.w = 16
     t.h = 16
     t.speed = 80
+    t.code = "TILE"
 
     function t:draw()
       if self._draw ~= nil then
