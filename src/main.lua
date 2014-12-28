@@ -1,4 +1,5 @@
 require 'lib.require'
+math.randomseed( os.time() )
 
 local global_lock = require 'lib.global_lock'
 local bump = require 'lib.bump'
