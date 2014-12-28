@@ -3,8 +3,8 @@ local function _board()
   board.db = {} 
   function board:load()
   end
-  function board:new(id)
-    return self:get(id):new()
+  function board:new(id, d)
+    return self:get(id):new(d)
   end
   function board:get(id)
     return self.db[id]
@@ -41,9 +41,9 @@ local function _board()
         return self.db
       end
     end
-    function t:new()
+    function t:new(d)
       if self._new ~= nil then
-        return self:_new()
+        return self:_new(d)
       end
     end
 

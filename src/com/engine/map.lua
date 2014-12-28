@@ -6,17 +6,17 @@ local function _map()
   function map:get(id)
     return self.db[id]
   end
-  function map:new(id)
-    return self:get(id):new()
+  function map:new(id,d)
+    return self:get(id):new(d)
   end
   function map:create(id)
     local t = {}
     t.id = id
     t.code = "MAP"
 
-    function t:new()
+    function t:new(d)
       if self._new ~= nil then
-        return self:_new()
+        return self:_new(d)
       end
     end
 
