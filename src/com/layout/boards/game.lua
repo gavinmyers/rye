@@ -6,6 +6,11 @@ local function main()
 
   function gen:_new(d)
     local b = board:create("GAME-"..math.random(1000,9999).."-"..math.random(1000,9999))
+    local debug = {}
+    for i=1,255 do
+      debug[i] = {math.random(255),math.random(255),math.random(255)}
+    end
+    b.debug = debug
     b.player = b:get(b:add(tile:new("ACTOR")).id) --roundabout way to prove all this works
     b.map = d.map
     --local w = tile:new("WALL")
@@ -24,7 +29,8 @@ local function main()
 
       for x,xv in pairs(self.map.generation) do
         for y,yv in pairs(xv) do
-          love.graphics.setColor(yv,yv,yv)
+          local d = math.floor(yv)
+          love.graphics.setColor(self.debug[d][1],self.debug[d][2],self.debug[d][3])
           local x = x * 6
           local y = y * 6
           local w = 4

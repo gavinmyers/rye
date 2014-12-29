@@ -112,7 +112,7 @@ local function main()
           if t.generation[x][y] > 170 then
             t.generation[x][y] = 255
           else
-            t.generation[x][y] = t.generation[x][y] * 0.8 
+            t.generation[x][y] = math.floor(t.generation[x][y] * 0.8) 
           end
         end
       end

@@ -24,6 +24,8 @@ local function _rye()
     end
 
     function r:keypressed(k)
+      r.map = map:new("CAVE",{width=r.width,height=r.height})
+      r.board = board:new("GAME", {map=r.map})
       r.board:keypressed(k)
     end
 
