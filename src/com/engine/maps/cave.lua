@@ -51,14 +51,13 @@ local function main()
     t.code = "C0"
     t.width = d.width
     t.height = d.height
-    local m = {}
+    t.generation = {} 
     for x=1,d.width do
-      m[x]={}
+      t.generation[x]={}
       for y=1,d.height do
-        m[x][y]=math.random(255)
+        t.generation[x][y]=math.random(255)
       end
     end
-    t.generation = m
 
     for k=1,5 do
       for x=1,d.width do
@@ -67,10 +66,10 @@ local function main()
         end
       end
 
-      for i=1,5 do
-        t:square(math.random(t.width),math.random(t.height),math.random(t.width / 4), math.random(t.height / 4), 255)
+      for i=1,35 do
+        t:square(math.random(t.width),math.random(t.height),math.random(t.width / 8), math.random(t.height / 8), 255)
       end
-      for i=1,2 do
+      for i=1,25 do
         for x=1,d.width do
           for y=1,d.height do
             local a = {t:val(x-1,y-1),
@@ -105,18 +104,24 @@ local function main()
           end
         end
       end
-
-
-      for x=1,d.width do
-        for y=1,d.height do
-          if t.generation[x][y] > 170 then
-            t.generation[x][y] = 255
-          else
-            t.generation[x][y] = math.floor(t.generation[x][y] * 0.8) 
-          end
+    end
+    for x=1,d.width do
+      for y=1,d.height do
+        if t.generation[x][y] > 240 then
+          --t.generation[x][y] = 255
+        elseif t.generation[x][y] > 220 then
+          --t.generation[x][y] = 254
+        elseif t.generation[x][y] > 200 then
+          --t.generation[x][y] = 253
+        elseif t.generation[x][y] > 180 then
+          --t.generation[x][y] = 252
+        else
+          --t.generation[x][y] = 1 
         end
+          --t.generation[x][y] = math.floor(t.generation[x][y] * 0.8) 
       end
     end
+
     return t 
   end
   return gen 

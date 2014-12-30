@@ -10,7 +10,7 @@ local function _rye()
     r.width = 132
     r.height = 98
     r.tile = 16
-    r.map = map:new("CAVE",{width=r.width,height=r.height})
+    r.map = map:new("SIMPLE",{width=r.width,height=r.height})
     r.board = board:new("GAME", {map=r.map})
     --r.engine = engine:new("GAME")
     --r.style = style:new("GAME")
