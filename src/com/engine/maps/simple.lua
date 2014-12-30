@@ -17,6 +17,8 @@ local function main()
         end
       end
     end
+    t.generation[2][2] = 100
+    t.generation[t.width - 1][t.height - 1] = 100
     return t 
   end
 end

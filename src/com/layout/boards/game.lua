@@ -13,6 +13,7 @@ local function main()
     b.debug = debug
     b.player = b:get(b:add(tile:new("ACTOR")).id) --roundabout way to prove all this works
     b.map = d.map
+    b.tile = d.tile
     --local w = tile:new("WALL")
     --w.l = 32
     --w.t = 32
@@ -33,8 +34,8 @@ local function main()
           love.graphics.setColor(self.debug[d][1],self.debug[d][2],self.debug[d][3])
           local x = x * 6
           local y = y * 6
-          local w = 4
-          local h = 4 
+          local w = self.tile 
+          local h = self.tile 
           love.graphics.rectangle("fill",x,y,w,h)
         end
       end

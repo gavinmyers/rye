@@ -9,9 +9,9 @@ local function _rye()
     local r = {}
     r.width = 132
     r.height = 98
-    r.tile = 16
+    r.tile = 5 
     r.map = map:new("SIMPLE",{width=r.width,height=r.height})
-    r.board = board:new("GAME", {map=r.map})
+    r.board = board:new("GAME", {map=r.map,tile=r.tile})
     --r.engine = engine:new("GAME")
     --r.style = style:new("GAME")
 
@@ -24,8 +24,8 @@ local function _rye()
     end
 
     function r:keypressed(k)
-      r.map = map:new("CAVE",{width=r.width,height=r.height})
-      r.board = board:new("GAME", {map=r.map})
+      --r.map = map:new("CAVE",{width=r.width,height=r.height})
+      --r.board = board:new("GAME", {map=r.map})
       r.board:keypressed(k)
     end
 
