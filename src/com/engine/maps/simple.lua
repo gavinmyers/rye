@@ -12,6 +12,16 @@ local function main()
       for y=1,d.height do
         if x == 1 or y == 1 or x == t.width or y == t.height then
           t.generation[x][y]=1
+        elseif math.floor(x % 5) == 1 and math.floor(y % 2) == 1 then
+          t.generation[x][y]=1
+        elseif math.floor(x % 6) == 1 and math.floor(y % 6) == 1 then
+          t.generation[x][y]=1
+        elseif math.floor(x % 5) == 1 and math.floor(y % 5) == 1 then
+          t.generation[x][y]=1
+        elseif math.floor(x % 4) == 1 and math.floor(y % 4) == 1 then
+          t.generation[x][y]=1
+        elseif math.floor(x % 3) == 1 and math.floor(y % 3) == 1 then
+          t.generation[x][y]=1
         else
           t.generation[x][y]=255
         end

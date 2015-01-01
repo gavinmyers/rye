@@ -9,19 +9,26 @@ local function main()
     b.player = b:get(b:add(tile:new("ACTOR")).id) --roundabout way to prove all this works
     b.player.l = 16
     b.player.t = 16 
-    local tileW = 5 
-    local tileH = 5 
+    local tileW = 12 
+    local tileH = 12 
 
     for x,xv in pairs(d.map) do
       for y,yv in pairs(xv) do
-        local d = math.floor(yv)
-        if d == 255 then
+        local n = math.floor(yv)
+        if n == 255 then
           local gnd = b:add(tile:new("GROUND"))
           gnd.l = x * (tileW + 1) 
           gnd.t = y * (tileH + 1) 
           gnd.w = tileW 
           gnd.h = tileH 
-          gnd:batch()
+          gnd:batch({map=d.map})
+        elseif n == 1 then
+          local wall = b:add(tile:new("WALL"))
+          wall.l = x * (tileW + 1) 
+          wall.t = y * (tileH + 1) 
+          wall.w = tileW 
+          wall.h = tileH 
+          wall:batch({map=d.map})
         end
       end
     end
@@ -32,7 +39,7 @@ local function main()
       love.graphics.rectangle("fill",0,0,screenWidth,screenHeight)
 
       tile:get("GROUND"):draw()
-
+      tile:get("WALL"):draw()
       for k, v in pairs(self:get()) do
         for k2, v2 in pairs(v) do
           v2:draw()
