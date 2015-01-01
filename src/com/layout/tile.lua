@@ -9,6 +9,7 @@ local function _tile()
   function tile:new(id)
     return self:get(id):new()
   end
+
   function tile:create(id)
     local t = {}
     t.id = id
@@ -19,6 +20,7 @@ local function _tile()
     t.h = 4 
     t.speed = 80
     t.code = "TILE"
+    t.spritebatch = nil
 
     function t:draw()
       if self._draw ~= nil then
@@ -29,9 +31,21 @@ local function _tile()
       end
     end
 
+    function t:batch()
+      if self._batch ~= nil then
+        return self:_batch()
+      end
+      return nil
+    end
+
     function t:new()
       if self._new ~= nil then
-        return self:_new()
+        local tile = self:_new()
+        tile.parent = self
+        return tile
+      else
+        print("NO CONSTRUCTOR FOR THIS TILE")
+        love.event.quit()
       end
     end
 

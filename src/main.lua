@@ -12,6 +12,8 @@ local things = require.tree('com.engine.things')
 local tiles = require.tree('com.layout.tiles')
 local boards = require.tree('com.layout.boards')
 
+love.graphics.setDefaultFilter("nearest")
+
 local rye = rye:new() 
 
 function love.load()
