@@ -33,22 +33,34 @@ local function main()
     love.graphics.draw(self.spritebatch)
   end
 
-  function gen:_new()
+  function gen:_new(d)
     local t = tile:create("WALL-"..math.random(1000,9999).."-"..math.random(1000,9999))
     t.quad = self.quad
+    t.map = d.map
     t.image = self.image
     t.z = 0
     t.code = "G0"
     function t:_draw()
-      if self.parent.spritebatch == nil then
-        love.graphics.setColor(225,225,225)
-        love.graphics.rectangle("fill",self.l,self.t,self.w,self.h)
-        love.graphics.draw(self.image, self.quad, self.l, self.t, 0, self.w / 16, self.h / 16)
-      end
     end
     function t:_batch()
       if self.parent.spritebatch ~= nil then
-        self.parent.spritebatch:add(self.quad["W1"][""], self.l, self.t, 0, self.w / 16, self.h / 16)
+        local code = ""
+        local val = self.map[self.x][self.y]
+
+        if self.map[self.x] ~= nil and self.map[self.x][self.y + 1] == val then
+          code = code .. "N"
+        end
+        if self.map[self.x] ~= nil and self.map[self.x][self.y - 1] == val then
+          code = code .. "S"
+        end
+        if self.map[self.x + 1] ~= nil and self.map[self.x + 1][self.y] == val then
+          code = code .. "E"
+        end
+        if self.map[self.x - 1] ~= nil and self.map[self.x - 1][self.y] == val then
+          code = code .. "W"
+        end
+
+        self.parent.spritebatch:add(self.quad["W1"][code], self.l, self.t, 0, self.w / 16, self.h / 16)
       end
     end
     return t 

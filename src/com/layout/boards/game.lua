@@ -16,19 +16,23 @@ local function main()
       for y,yv in pairs(xv) do
         local n = math.floor(yv)
         if n == 255 then
-          local gnd = b:add(tile:new("GROUND"))
+          local gnd = b:add(tile:new("GROUND",{map=d.map}))
           gnd.l = x * (tileW + 1) 
           gnd.t = y * (tileH + 1) 
+          gnd.x = x
+          gnd.y = y
           gnd.w = tileW 
           gnd.h = tileH 
           gnd:batch({map=d.map})
         elseif n == 1 then
-          local wall = b:add(tile:new("WALL"))
+          local wall = b:add(tile:new("WALL",{map=d.map}))
           wall.l = x * (tileW + 1) 
           wall.t = y * (tileH + 1) 
+          wall.x = x
+          wall.y = y
           wall.w = tileW 
           wall.h = tileH 
-          wall:batch({map=d.map})
+          wall:batch()
         end
       end
     end
