@@ -6,41 +6,30 @@ local function main()
 
   function gen:_new(d)
     local b = board:create("GAME-"..math.random(1000,9999).."-"..math.random(1000,9999))
-    local debug = {}
-    for i=1,255 do
-      debug[i] = {math.random(255),math.random(255),math.random(255)}
-    end
-    b.debug = debug
     b.player = b:get(b:add(tile:new("ACTOR")).id) --roundabout way to prove all this works
+    b.player.l = 16
+    b.player.t = 16 
     b.map = d.map
-    b.tile = d.tile
-    --local w = tile:new("WALL")
-    --w.l = 32
-    --w.t = 32
-    --b:add(w)
-    --local g = tile:new("GROUND")
-    --g.l = 128 
-    --g.t = 128 
-    --b:add(g)
+
+    for x,xv in pairs(b.map) do
+      for y,yv in pairs(xv) do
+        local d = math.floor(yv)
+        if d == 255 then
+          local gnd = b:add(tile:new("GROUND"))
+          gnd.l = x * 6
+          gnd.t = y * 6
+          gnd.w = 5
+          gnd.h = 5
+        end
+      end
+    end
 
     function b:_draw()
       local screenWidth, screenHeight = love.window.getDimensions()
+
       love.graphics.setColor(125,125,125)
       love.graphics.rectangle("fill",0,0,screenWidth,screenHeight)
 
-      for x,xv in pairs(self.map.generation) do
-        for y,yv in pairs(xv) do
-          local d = math.floor(yv)
-          love.graphics.setColor(self.debug[d][1],self.debug[d][2],self.debug[d][3])
-          local x = x * 6
-          local y = y * 6
-          local w = self.tile 
-          local h = self.tile 
-          love.graphics.rectangle("fill",x,y,w,h)
-        end
-      end
-
-      love.graphics.setColor(0,0,0)
       for k, v in pairs(self:get()) do
         for k2, v2 in pairs(v) do
           v2:draw()

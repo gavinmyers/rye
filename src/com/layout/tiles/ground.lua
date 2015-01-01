@@ -6,7 +6,7 @@ local function main()
     function t:_draw()
       t.z = 0
       t.code = "G0"
-      love.graphics.setColor(255,0,0)
+      love.graphics.setColor(0,0,0)
       love.graphics.rectangle("fill",self.l,self.t,self.w,self.h)
     end
     return t 

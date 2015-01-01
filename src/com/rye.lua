@@ -7,11 +7,8 @@ local function _rye()
   local rye = {}
   function rye:new()
     local r = {}
-    r.width = 132
-    r.height = 98
-    r.tile = 5 
-    r.map = map:new("SIMPLE",{width=r.width,height=r.height})
-    r.board = board:new("GAME", {map=r.map,tile=r.tile})
+    local map = map:new("SIMPLE",{width=132,height=98})
+    r.board = board:new("GAME", {map=map.generation})
     --r.engine = engine:new("GAME")
     --r.style = style:new("GAME")
 

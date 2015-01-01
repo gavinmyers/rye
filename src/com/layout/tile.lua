@@ -15,8 +15,8 @@ local function _tile()
     t.l = 0
     t.t = 0
     t.z = 0
-    t.w = 16
-    t.h = 16
+    t.w = 4 
+    t.h = 4 
     t.speed = 80
     t.code = "TILE"
 
