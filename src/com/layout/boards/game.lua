@@ -6,11 +6,13 @@ local function main()
 
   function gen:_new(d)
     local b = board:create("GAME-"..math.random(1000,9999).."-"..math.random(1000,9999))
-    b.player = b:get(b:add(tile:new("ACTOR")).id) --roundabout way to prove all this works
-    b.player.l = 16
-    b.player.t = 16 
     local tileW = 12 
     local tileH = 12 
+    b.player = b:get(b:add(tile:new("ACTOR")).id) --roundabout way to prove all this works
+    b.player.l = 32 
+    b.player.t = 32 
+    b.player.w = tileW
+    b.player.h = tileH
     local debug_space = 0
     for x,xv in pairs(d.map) do
       for y,yv in pairs(xv) do
