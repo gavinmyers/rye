@@ -12,8 +12,9 @@ local function main()
     local b = board:create("GAME-"..math.random(1000,9999).."-"..math.random(1000,9999))
     b.world = bump.newWorld()
     b.light = love.light.newWorld() 
+    b.light.setAmbientColor(100,100,100)
     b.light.clearBodys()
-    b.lightSource = b.light.newLight(255,255,255,255,255,300)
+    b.lightSource = b.light.newLight(0,0,255,255,255,100)
     local tileW = 12
     local tileH = 12 
     b.player = b:get(b:add(tile:new("ACTOR")).id) --roundabout way to prove all this works
