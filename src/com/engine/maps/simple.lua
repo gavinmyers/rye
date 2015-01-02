@@ -14,7 +14,7 @@ local function main()
           t.generation[x][y]=1
         elseif math.floor(x % 5) == 1 and math.floor(y % 2) == 1 then
           t.generation[x][y]=1
-        elseif math.floor(x % 6) == 1 and math.floor(y % 6) == 1 then
+        elseif math.floor(x % 11) == 1 and math.floor(y % 11) == 1 then
           t.generation[x][y]=1
         elseif math.floor(x % 5) == 1 and math.floor(y % 5) == 1 then
           t.generation[x][y]=1

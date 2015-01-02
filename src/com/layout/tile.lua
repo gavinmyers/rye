@@ -18,7 +18,8 @@ local function _tile()
     t.z = 0
     t.w = 4 
     t.h = 4 
-    t.speed = 80
+    t.x = 0
+    t.y = 0
     t.code = "TILE"
     t.spritebatch = nil
 

@@ -7,6 +7,7 @@ local function main()
   function gen:_new()
     local t = tile:create("ACTOR-"..math.random(1000,9999).."-"..math.random(1000,9999))
     t.z = 1
+    t.speed = 80
     t.code = "A0"
     function t:_draw()
       love.graphics.draw(self.parent.image,self.parent.quad["P1"], self.l, self.t, 0, self.w / 16, self.h / 16)
