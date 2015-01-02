@@ -1480,7 +1480,7 @@ function love.light.calculateShadows(light, body)
 
   for i = 1, #body do
     if body[i].shadowType == "rectangle" or body[i].shadowType == "polygon" then
-      curPolygon = body[i].data
+      local curPolygon = body[i].data
       if not body[i].castsNoShadow then
         local edgeFacingTo = {}
         for k = 1, #curPolygon, 2 do
