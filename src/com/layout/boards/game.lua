@@ -11,14 +11,14 @@ local function main()
     b.player.t = 16 
     local tileW = 12 
     local tileH = 12 
-
+    local debug_space = 0
     for x,xv in pairs(d.map) do
       for y,yv in pairs(xv) do
         local n = math.floor(yv)
         if n == 255 then
           local gnd = b:add(tile:new("GROUND",{map=d.map}))
-          gnd.l = x * (tileW + 1) 
-          gnd.t = y * (tileH + 1) 
+          gnd.l = x * (tileW + debug_space) 
+          gnd.t = y * (tileH + debug_space) 
           gnd.x = x
           gnd.y = y
           gnd.w = tileW 
@@ -26,8 +26,8 @@ local function main()
           gnd:batch({map=d.map})
         elseif n == 1 then
           local wall = b:add(tile:new("WALL",{map=d.map}))
-          wall.l = x * (tileW + 1) 
-          wall.t = y * (tileH + 1) 
+          wall.l = x * (tileW + debug_space) 
+          wall.t = y * (tileH + debug_space) 
           wall.x = x
           wall.y = y
           wall.w = tileW 

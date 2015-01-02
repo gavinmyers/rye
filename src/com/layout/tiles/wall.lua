@@ -47,10 +47,10 @@ local function main()
         local code = ""
         local val = self.map[self.x][self.y]
 
-        if self.map[self.x] ~= nil and self.map[self.x][self.y + 1] == val then
+        if self.map[self.x][self.y - 1] == val then
           code = code .. "N"
         end
-        if self.map[self.x] ~= nil and self.map[self.x][self.y - 1] == val then
+        if self.map[self.x][self.y + 1] == val then
           code = code .. "S"
         end
         if self.map[self.x + 1] ~= nil and self.map[self.x + 1][self.y] == val then
