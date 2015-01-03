@@ -10,46 +10,49 @@ local function main()
 
   function gen:_new(d)
     local b = board:create("GAME-"..math.random(1000,9999).."-"..math.random(1000,9999))
-    b.world = bump.newWorld()
-    b.light = love.light.newWorld() 
-    b.light.setAmbientColor(100,100,100)
-    b.light.clearBodys()
-    b.lightSource = b.light.newLight(0,0,255,255,255,100)
-    local tileW = 12
-    local tileH = 12 
-    b.player = b:get(b:add(tile:new("ACTOR")).id) --roundabout way to prove all this works
-    b.player.l = 32 
-    b.player.t = 32 
-    b.player.w = tileW -6
-    b.player.h = tileH -6
-    b.lightSource.setPosition(b.player.l, b.player.t)
-    b.world:add(b.player.id, b.player.l, b.player.t, b.player.w, b.player.h)
-    local debug_space = 0
-    for x,xv in pairs(d.map) do
-      for y,yv in pairs(xv) do
-        local n = math.floor(yv)
-        if n == 255 then
-          local gnd = b:add(tile:new("GROUND",{map=d.map}))
-          gnd.l = x * (tileW + debug_space) 
-          gnd.t = y * (tileH + debug_space) 
-          gnd.x = x
-          gnd.y = y
-          gnd.w = tileW 
-          gnd.h = tileH 
-          gnd:batch({map=d.map})
-        elseif n == 1 then
-          local wall = b:add(tile:new("WALL",{map=d.map}))
-          wall.l = x * (tileW + debug_space) 
-          wall.t = y * (tileH + debug_space) 
-          wall.x = x
-          wall.y = y
-          wall.w = tileW 
-          wall.h = tileH 
-          wall:batch()
-          b.world:add(wall.id, wall.l, wall.t, wall.w, wall.h)
-          b.light.newRectangle(wall.l, wall.t, wall.w, wall.h)
+
+    function b:init()
+      self.world = bump.newWorld()
+      self.light = love.light.newWorld() 
+      self.light.setAmbientColor(150,150,150)
+      self.light.clearBodys()
+      local tileW = 36 
+      local tileH = 36
+      self.player = b:get(b:add(tile:new("ACTOR")).id) --roundabout way to prove all this works
+      self.player.l = tileW * 2 
+      self.player.t = tileH * 2 
+      self.player.w = math.floor(tileW * 0.8) 
+      self.player.h = math.floor(tileH * 0.8) 
+      self.player.light = self.light.newLight(0,0,255,255,255,100)
+      self.player.light.setPosition(self.player.l, self.player.t)
+      self.world:add(self.player.id, self.player.l, self.player.t, self.player.w, self.player.h)
+      for x,xv in pairs(d.map) do
+        for y,yv in pairs(xv) do
+          local n = math.floor(yv)
+          if n == 255 then
+            local gnd = b:add(tile:new("GROUND",{map=d.map})) -- TODO: get around passing the map
+            gnd.l = x * tileW 
+            gnd.t = y * tileH
+            gnd.x = x
+            gnd.y = y
+            gnd.w = tileW 
+            gnd.h = tileH 
+            gnd:batch()
+          elseif n == 1 then
+            local wall = b:add(tile:new("WALL",{map=d.map}))
+            wall.l = x * tileW
+            wall.t = y * tileH
+            wall.x = x
+            wall.y = y
+            wall.w = tileW 
+            wall.h = tileH 
+            wall:batch()
+            self.world:add(wall.id, wall.l, wall.t, wall.w, wall.h)
+            self.light.newRectangle(wall.l, wall.t, wall.w, wall.h)
+          end
         end
       end
+      return self
     end
 
     function b:_draw()
@@ -109,7 +112,7 @@ local function main()
         self.world:move(self.player.id, fx, fy) 
         self.player.l = fx 
         self.player.t = fy 
-        self.lightSource.setPosition(self.player.l, self.player.t)
+        self.player.light.setPosition(self.player.l, self.player.t)
       end
     end
 
@@ -118,7 +121,8 @@ local function main()
         love.event.quit() 
       end
     end
-    return b
+
+    return b:init()
   end
 
   return gen

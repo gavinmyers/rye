@@ -2,6 +2,7 @@ local tile = require 'com.layout.tile'
 local function main()
   local gen = tile:create("GROUND")
   gen.image = love.graphics.newImage("com/style/DawnLike_1/Objects/Floor.png")
+  gen.image:setFilter("nearest")
   gen.spritebatch = love.graphics.newSpriteBatch(gen.image,100000)
 
   gen.quad = {}
