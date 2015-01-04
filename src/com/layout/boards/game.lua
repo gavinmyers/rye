@@ -16,8 +16,8 @@ local function main()
       self.light = love.light.newWorld() 
       self.light.setAmbientColor(150,150,150)
       self.light.clearBodys()
-      local tileW = 36 
-      local tileH = 36
+      local tileW = 32 
+      local tileH = 32 
       self.player = b:get(b:add(tile:new("ACTOR")).id) --roundabout way to prove all this works
       self.player.l = tileW * 2 
       self.player.t = tileH * 2 
@@ -25,7 +25,11 @@ local function main()
       self.player.h = math.floor(tileH * 0.8) 
       self.player.light = self.light.newLight(0,0,255,255,255,100)
       self.player.light.setPosition(self.player.l, self.player.t)
-      self.world:add(self.player.id, self.player.l, self.player.t, self.player.w, self.player.h)
+      self.world:add(self.player.id, 
+        self.player.l + (self.player.w / 2), 
+        self.player.t + (self.player.h / 2), 
+        self.player.w / 4, 
+        self.player.h / 4) 
       for x,xv in pairs(d.map) do
         for y,yv in pairs(xv) do
           local n = math.floor(yv)
@@ -69,6 +73,7 @@ local function main()
       tile:get("WALL"):draw()
       self.light.update()
       self.light.drawShadow()
+      --bump_debug.draw(self.world)
     end
 
     function b:_update(dt)
@@ -89,8 +94,8 @@ local function main()
         return
       end
 
-      local fx = math.floor(self.player.l + dx)
-      local fy = math.floor(self.player.t + dy)
+      local fx = math.floor((self.player.l + (self.player.w / 2)) + dx)
+      local fy = math.floor((self.player.t + (self.player.h / 2)) + dy)
       local collisions, len = self.world:check(self.player.id,fx,fy)
       local canMove = len == 0 
 
@@ -109,9 +114,9 @@ local function main()
       end
 
       if canMove == true then
+        self.player.l = self.player.l + dx 
+        self.player.t = self.player.t + dy 
         self.world:move(self.player.id, fx, fy) 
-        self.player.l = fx 
-        self.player.t = fy 
         self.player.light.setPosition(self.player.l, self.player.t)
       end
     end
