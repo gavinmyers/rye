@@ -34,9 +34,11 @@ local function main()
         self.last_quad = last_quad
         self.last_updated = time
       end
+      love.graphics.setColor(0,0,0)
+      love.graphics.rectangle("fill",self.l, self.t,self.w, self.h)
+      love.graphics.setColor(125,125,125)
+      love.graphics.rectangle("fill",self.l + (self.w / 2), self.t + (self.h / 2), self.w / 4, self.h / 4 )
       love.graphics.draw(self.parent.image,self.last_quad,self.l, self.t, 0, self.w / 64, self.h / 64)
-
-      --love.graphics.rectangle("fill",self.l + (self.w / 2), self.t + (self.h / 2), self.w / 4, self.h / 4 )
     end
     return t 
   end

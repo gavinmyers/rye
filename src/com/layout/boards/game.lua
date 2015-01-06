@@ -100,15 +100,15 @@ local function main()
       local canMove = len == 0 
 
       if canMove == false then
-        fx = math.floor(self.player.l + 0)
-        fy = math.floor(self.player.t + dy)
+        fx = math.floor((self.player.l + (self.player.w / 2)) + 0)
+        fy = math.floor((self.player.t + (self.player.h / 2)) + dy)
         collisions, len = self.world:check(self.player.id,fx,fy)
         canMove = len == 0 
       end
       
       if canMove == false then
-        fx = math.floor(self.player.l + dx)
-        fy = math.floor(self.player.t + 0)
+        fx = math.floor((self.player.l + (self.player.w / 2)) + dx)
+        fy = math.floor((self.player.t + (self.player.h / 2)) + 0)
         collisions, len = self.world:check(self.player.id,fx,fy)
         canMove = len == 0 
       end
@@ -117,7 +117,6 @@ local function main()
         self.player.l = self.player.l + dx 
         self.player.t = self.player.t + dy 
         self.world:move(self.player.id, fx, fy) 
-        self.player.light.setPosition(self.player.l, self.player.t)
       end
     end
 
