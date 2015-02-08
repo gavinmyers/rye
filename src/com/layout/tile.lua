@@ -23,6 +23,13 @@ local function _tile()
     t.code = "TILE"
     t.spritebatch = nil
 
+    function t:update(dt)
+      if self._update ~= nil then
+        return self:_update(dt)
+      end
+    end
+
+    
     function t:draw()
       if self._draw ~= nil then
         return self:_draw()

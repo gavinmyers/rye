@@ -77,6 +77,7 @@ local function main()
     end
 
     function b:_update(dt)
+      self.player:update(dt)
       local speed = self.player.speed 
       local dx, dy = 0, 0
       if love.keyboard.isDown('right') then
@@ -116,6 +117,7 @@ local function main()
       if canMove == true then
         self.player.l = self.player.l + dx 
         self.player.t = self.player.t + dy 
+        self.player.light.setPosition(self.player.l, self.player.t)
         self.world:move(self.player.id, fx, fy) 
       end
     end

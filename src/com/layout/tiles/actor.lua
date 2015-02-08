@@ -1,20 +1,12 @@
 local tile = require 'com.layout.tile'
+local anim8 = require 'lib.anim8'
 local function main()
   local gen = tile:create("ACTOR")
   gen.image = love.graphics.newImage("com/style/ULPCSS/spritesheet_1.png")
-  gen.image:setFilter("nearest")
+  gen.anim8 = anim8.newGrid(64,64, 1536,2112,   0,0,     0)
   gen.quad = {}
-  gen.quad["WALK"] = {
-    love.graphics.newQuad(64 * 0, 64 * 11, 64, 64, 1536, 2112)
-    ,love.graphics.newQuad(64 * 1, 64 * 11, 64, 64, 1536, 2112)
-    ,love.graphics.newQuad(64 * 2, 64 * 11, 64, 64, 1536, 2112)
-    ,love.graphics.newQuad(64 * 3, 64 * 11, 64, 64, 1536, 2112)
-    ,love.graphics.newQuad(64 * 4, 64 * 11, 64, 64, 1536, 2112)
-    ,love.graphics.newQuad(64 * 5, 64 * 11, 64, 64, 1536, 2112)
-    ,love.graphics.newQuad(64 * 6, 64 * 11, 64, 64, 1536, 2112)
-    ,love.graphics.newQuad(64 * 7, 64 * 11, 64, 64, 1536, 2112)
-    ,love.graphics.newQuad(64 * 8, 64 * 11, 64, 64, 1536, 2112)
-  }
+  gen.quad["WALK"] = anim8.newAnimation(gen.anim8('1-9',10),0.1) 
+ 
   function gen:_new()
     local t = tile:create("ACTOR-"..math.random(1000,9999).."-"..math.random(1000,9999))
     t.last_updated = 0 
@@ -23,22 +15,14 @@ local function main()
     t.z = 1
     t.speed = 80
     t.code = "A0"
+    function t:_update(dt)
+      gen.quad["WALK"]:update(dt)
+    end
     function t:_draw()
-      local time = os.clock()
-      if (time - self.last_updated) > 0.01 then
-        self.last_counter = self.last_counter + 1
-        if self.last_counter > 8 then
-          self.last_counter = 1 
-        end
-        local last_quad = self.parent.quad["WALK"][self.last_counter]
-        self.last_quad = last_quad
-        self.last_updated = time
-      end
-      love.graphics.setColor(0,0,0)
-      love.graphics.rectangle("fill",self.l, self.t,self.w, self.h)
-      love.graphics.setColor(125,125,125)
-      love.graphics.rectangle("fill",self.l + (self.w / 2), self.t + (self.h / 2), self.w / 4, self.h / 4 )
-      love.graphics.draw(self.parent.image,self.last_quad,self.l, self.t, 0, self.w / 64, self.h / 64)
+      love.graphics.setColor(10,10,10)
+      love.graphics.rectangle("fill",self.l, self.t, 6, 6) 
+      love.graphics.setColor(255,255,255)
+      gen.quad["WALK"]:draw(gen.image, self.l, self.t)
     end
     return t 
   end

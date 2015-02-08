@@ -3,6 +3,7 @@ math.randomseed( os.time() )
 
 local global_lock = require 'lib.global_lock'
 local bump = require 'lib.bump'
+local anim8 = require 'lib.anim8'
 local shader = require 'lib.postshader'
 local light = require 'lib.light'
 local rye = require 'com.rye'
